@@ -1,0 +1,173 @@
+<!doctype html>
+<html class="no-js" lang="">
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Ai - chatgptsoso.com</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>#chatgpt-response { font-family: "宋体"; font-size: 20px; color: #0000FF; font-weight: bold; }</style>
+    <!-- favicon icon -->
+    <link rel="icon" href="img/favicon.png">
+    <!-- All CSS Files Here -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/et-line-fonts.css">
+    <link rel="stylesheet" href="css/ionicons.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/meanmenu.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    <script>
+	    async function callCHATGPT() {
+		var responseText1 = document.getElementById("chatgpt-response");
+		responseText1.innerHTML = ""
+        function printMessage(message) {
+          var responseText = document.getElementById("chatgpt-response");
+          var index = 0;
+
+          // 创建一个定时器，每隔一段时间打印一个字符
+          var interval = setInterval(function() {
+            responseText.innerHTML += message[index];
+            index++;
+
+            // 当打印完成时，清除定时器
+            if (index >= message.length) {
+              clearInterval(interval);
+            }
+          },
+          150); // 每隔50毫秒打印一个字符
+        }
+        var xhr = new XMLHttpRequest();
+        var url = "https://api.openai.com/v1/completions";
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.setRequestHeader("Authorization", "Bearer 123456");
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            var json = JSON.parse(xhr.responseText);
+            var response = json.choices[0].text;
+
+            // 将CHATGPT的返回值输出到文本框
+            var responseText = document.getElementById("chatgpt-response");
+            var index = 0;
+
+            // 创建一个定时器，每隔一段时间打印一个字符
+            var interval = setInterval(function() {
+              responseText.innerHTML += response[index];
+              index++;
+
+              // 当打印完成时，清除定时器
+              if (index >= response.length) {
+                clearInterval(interval);
+              }
+            },
+            50); // 每隔50毫秒打印一个字符
+          }
+        };
+
+        var data = JSON.stringify({
+          "prompt": document.getElementById("chat-gpt-input").value,
+          "max_tokens": 2048,
+          "temperature": 0.5,
+          "top_p": 1,
+          "frequency_penalty": 0,
+          "presence_penalty": 0,
+          "model": "text-davinci-003"
+        });
+        console.log(data);
+        await printMessage('正在思考，请等待......');
+		await xhr.send(data);
+      }
+	</script>
+  </head>
+	 
+  <body>
+    <div class="page-loader">
+      <div class="loader">Loading...</div></div>
+    <header id="sticky-header">
+      <div class="header-area">
+        <div class="container sm-100">
+          <div class="row">
+            <div class="col-md-3 col-sm-2">
+              <div class="logo text-upper">
+                <h4>
+                  <a href="index.html">OpenAi -GPT</a></h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="basic-portfolio-area ptb-10">
+      <div class="filter-menu text-center mb-40">
+        <h4>与Ai对话，请描述您的需求-支持中文、英语、日本语等</h4>
+        <h3>访问费用由站长承担，请勿频繁访问！</h3>
+        <h3>此网站为公益网站如果你在某宝某鱼购买的 请申请退款 并举报！</h3>
+        <h3>网站正在遭受攻击中 防火墙已开启 请勿频繁访问！</h3>
+        <h3>此网站搭建教程</h3>
+		<p>https://cloud.tencent.com/developer/article/2217442</p>
+	  </div>
+      <div class="call-to-action-area gray-bg ptb-60">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-9 col-sm-9 col-xs-12">
+              <div class="form-group">
+                <label></label>
+                <textarea class="form-control" id="chat-gpt-input" placeholder="输入描述" rows="3" resize="none" style="width: 135%; margin: 0 auto; background-color: #f4f4f4; color: #333; border: 1px solid #ccc; border-radius: 12px;"></textarea>
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-12">
+                <div class="call-to-action">
+                  <button onclick="callCHATGPT()" autocomplete="off" class="btn btn-large" href="#" style="background-color: #333; color: #f4f4f4; border-radius: 10px">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Click to
+                    <br>Answer</button></div>
+              </div>
+              <div class="col-md-9 col-sm-9 col-xs-12">
+                <div class="form-group">
+                  <label></label>
+                  <textarea class="form-control" id="chatgpt-response" placeholder="长途访问，请耐心等待回答 Ai生成它很快，但是由于网络问题我们需要等待，通常内容越长等待越久 如果长时间没反应请刷新页面重试" rows="26" resize="none" style="width: 150%;height: auto; margin: 0 auto; background-color: #f4f4f4; color: #333; border: 1px solid #ccc; border-radius: 10px; overflow: scroll;" readonly="true"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+		</div>
+		<footer>
+			<div class="basic-footer gray-bg text-center ptb-90">
+				<div class="container">
+					<div class="footer-logo mb-30">
+						<h3><a href="index.html">Open Ai 智能对话</a></h3>
+					</div>
+					<div class="copyright mt-20">
+						<p>站长TG：<a href="https://t.me/Jack Lao">@Jack Lao</a></p>
+						<p>国外手机号接码：<a href="https://sms-activate.org/?ref=2461182">https://sms-activate.org</a></p>
+						<hr>
+						<hr>
+						<p>截至到2022.12.13 已花费5000多刀 👇赞助站长👇</p>
+						<p><img src='https://chatgptsoso.com/img/20201010.jpeg' /></p>
+					</div>
+					<div class="footer-menu mt-30">
+						<p>友情链接</p>
+						<nav>
+							<ul>
+								<li><a href="https://chatgptsoso.com/" target="_blank">ChatGPT公益站</a></li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+        <script src="js/vendor/jquery-1.12.0.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/isotope.pkgd.min.js"></script>
+        <script src="js/imagesloaded.pkgd.min.js"></script>
+        <script src="js/jquery.magnific-popup.min.js"></script>
+        <script src="js/jquery.meanmenu.js"></script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+
+  </body>
+
+</html>
